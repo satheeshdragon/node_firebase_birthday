@@ -1,0 +1,131 @@
+
+<div class="row mid make">
+  <div class="col-md-8 mid">
+    <div class="row">
+      <h1 class="mid heading">Node PROCESSING! FOR BIRTHDAY DATES</h1>
+    </div>
+  </div>
+</div>
+
+<div class="row mid make">
+<div class="col-md-2 mid"> </div>
+  <div class="col-md-8 mid text-center">
+    <div class="">
+      <table class="" id="table_list" width="100%">
+        <thead>
+        <tr>
+        <th>First_name</th>
+        <th>Last_name</th>
+        <th>Born</th>
+        <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each hotdogs}}
+          <tr>
+            <td>{{this.first}}</td>
+            <td>{{this.last}}</td>
+            <td>{{this.born}}</td>
+            <td> 
+              <button class="btn btn-primary"onclick="edit_data('{{this.User_id}}')">EDIT</button> 
+              <button class="btn btn-danger" onclick="delete_data('{{this.User_id}}')">REMOVE</button> 
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+      </table>
+
+<script>
+        function delete_data(Master_id) {
+        $.ajax("/delete", {
+          type: "POST",
+          data: {Master_id:Master_id},
+        }).then(
+          function() {
+            // console.log("deleted hotdog", Master_id);
+            location.reload();
+          }
+        );
+      }
+
+      function edit_data(Master_id) {
+        $.ajax("/edit_data", {
+          type: "POST",
+          data: {Master_id:Master_id},
+        }).then(
+          function(data) {
+            var final = JSON.parse(data);
+            // console.log("Edit Fetch", final.first);
+
+            $('#Master_id').val(final.User_id);
+            $('#First_name_update').val(final.first);
+            $('#Last_name_update').val(final.last);
+            $('#Born_update').val(final.born);
+          }
+        );
+      }
+</script>
+
+    </div>
+  </div>
+  <div class="col-md-2 mid"> </div>
+</div>
+
+<div class="row mid make">
+  <div class="col-md-6 mid">
+      <div class="row mid">
+        <div class=" mid">
+          <h4 class="mid">Inserting Data</h4>
+          <form class="create-form">
+            <div class="form-group">
+              <label for="hotdog">First Name:</label>
+              <input type="text" class="form-control" id="First_name" name="name">
+            </div>
+
+            <div class="form-group">
+              <label for="hotdog">last Name:</label>
+              <input type="text" class="form-control" id="Last_name" name="name">
+            </div>
+
+            <div class="form-group">
+              <label for="hotdog">Born:</label>
+              <input type="text" class="form-control" id="Born" name="name">
+            </div>
+
+            <button class="btn btn-success" type="submit">Add</button>
+          </form>
+        </div>
+      </div>
+    <br>
+  </div>
+
+  <div class="col-md-6 mid">
+      <div class="row mid">
+        <div class=" mid">
+          <h4 class="mid">Update Data</h4>
+          <form class="update-form">
+            <div class="form-group">
+              <label for="hotdog">First Name:</label>
+              <input type="hidden" class="form-control" id="Master_id" name="name">
+              <input type="text" class="form-control" id="First_name_update" name="name">
+            </div>
+
+            <div class="form-group">
+              <label for="hotdog">last Name:</label>
+              <input type="text" class="form-control" id="Last_name_update" name="name">
+            </div>
+
+            <div class="form-group">
+              <label for="hotdog">Born:</label>
+              <input type="text" class="form-control" id="Born_update" name="name">
+            </div>
+
+            <button class="btn btn-success" type="submit">Update</button>
+          </form>
+        </div>
+      </div>
+    <br>
+  </div>
+</div>
+<br>
+
